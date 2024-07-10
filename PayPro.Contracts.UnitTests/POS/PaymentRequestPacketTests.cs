@@ -18,7 +18,7 @@ public class PaymentRequestPacketTests
             Amount = 50000.50m,
             UnitPrice = 1652.89m,
             PaymentMethod = "CREDIT_CARD", // DIGITAL_WALLET
-            CardNumber = "1234567890ABCDEF",
+            CardNumber = "1234567890123456",
         };
 
         return paymentRequestPacket;

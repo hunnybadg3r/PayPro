@@ -8,7 +8,7 @@ namespace PayPro.Main.Local.Models
         private DateTime _timestamp;
         private string _fuelType;
         private decimal _amount;
-        private double _liters;
+        private decimal _liters;
         private string _paymentMethod;
         private string _status;
         private bool _isUpdated;
@@ -37,7 +37,7 @@ namespace PayPro.Main.Local.Models
             set => SetProperty(ref _amount, value);
         }
 
-        public double Liters
+        public decimal Liters
         {
             get => _liters;
             set => SetProperty(ref _liters, value);

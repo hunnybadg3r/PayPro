@@ -38,7 +38,8 @@ MockPayAPI는 가상의 결제 게이트웨이 역할을 수행하는 API입니다.
 ```
 
 ##### 실패 시 (422 Unprocessable Entity):
-```json{
+```json
+{
   "transactionId": "0624-000001",
   "result": "1",
   "message": "Insufficient balance",
@@ -48,7 +49,8 @@ MockPayAPI는 가상의 결제 게이트웨이 역할을 수행하는 API입니다.
 ```
 
 ##### 잘못된 요청 시 (400 Bad Request):
-```json{
+```json
+{
   "error": "Error message describing the issue"
 }
 ```

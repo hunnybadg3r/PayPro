@@ -357,7 +357,7 @@ namespace PayPro.Main.Local.ViewModels
             var fuelTypes = new[] { "휘발유", "경유" };
             var paymentMethods = new[] { "카드", "간편", "현금" };
             var statuses = new[] { "승인", "실패" };
-            double pricePerLiter = 1652.89; // TODO: 하드코딩 수정
+            decimal pricePerLiter = 1652.89M; // TODO: 하드코딩 수정
 
             var transactions = Enumerable.Range(1, 20).Select(i =>
             {

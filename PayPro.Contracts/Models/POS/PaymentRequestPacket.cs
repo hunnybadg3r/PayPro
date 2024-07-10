@@ -53,7 +53,7 @@ namespace PayPro.Contracts.Models.POS
 
         private decimal _amount;
         private decimal _unitPrice;
-        private double _volume;
+        private decimal _volume;
 
         public decimal Amount
         {
@@ -83,7 +83,7 @@ namespace PayPro.Contracts.Models.POS
             }
         }
 
-        public double Volume
+        public decimal Volume
         {
             get => _volume;
             set
@@ -100,7 +100,8 @@ namespace PayPro.Contracts.Models.POS
         {
             if (UnitPrice != 0)
             {
-                Volume = (double)(Amount / UnitPrice);
+                decimal calculatedVolume = Amount / UnitPrice;
+                Volume = Math.Round(calculatedVolume, 2);
             }
         }
 
@@ -207,7 +208,7 @@ namespace PayPro.Contracts.Models.POS
             packet.FuelType = fields[6];
             packet.Amount = decimal.Parse(fields[7]);
             packet.UnitPrice = decimal.Parse(fields[8]);
-            packet.Volume = double.Parse(fields[9]);
+            packet.Volume = decimal.Parse(fields[9]);
             packet.PaymentMethod = fields[10];
             packet.CardNumber = fields[11];
 
