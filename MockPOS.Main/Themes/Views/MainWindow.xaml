@@ -1,0 +1,314 @@
+﻿<Window
+    x:Class="MockPOS.Main.Themes.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:MockPOS.Main.Local.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MockPOS.Main.Themes.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:viewmodels="clr-namespace:MockPOS.Main.Local.ViewModels"
+    Width="600"
+    Height="800"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <Style
+            x:Key="CustomLabelStyle"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="2,0,0,5" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#aaaaaa" />
+        </Style>
+        <Style x:Key="NoFocusVisualStyle">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle
+                            Stroke="Transparent"
+                            StrokeThickness="0" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#fafafa">
+        <Grid.Resources>
+            <converters:FuelTypeConverter x:Key="FuelTypeConverter" />
+            <converters:PaymentMethodsConverter x:Key="PaymentMethodsConverter" />
+            <converters:DateTimeConverter x:Key="DateTimeConverter" />
+            <Style
+                x:Key="SectionBorderStyle"
+                TargetType="Border">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="BorderBrush" Value="#f0f2f4" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="10" />
+            </Style>
+            <Style
+                x:Key="LabeledInputStyle"
+                TargetType="StackPanel">
+                <Setter Property="Width" Value="250" />
+                <Setter Property="Margin" Value="5,15,5,5" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Border
+                Margin="10"
+                Style="{StaticResource SectionBorderStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="Packet Type" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.PacketType}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="Transaction ID" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.TransactionId}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="Timestamp" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.Timestamp, Converter={StaticResource DateTimeConverter}}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="Location ID" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.LocationId}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="POS Terminal ID" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.POSTerminalId}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="Operator ID" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.OperatorId}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="유종" />
+                            <ComboBox
+                                Grid.Row="1"
+                                ItemsSource="{Binding FuelTypes}"
+                                SelectedIndex="0"
+                                SelectedItem="{Binding FuelType}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource FuelTypeConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="주유 금액" />
+                            <ui:NumberBox
+                                LargeChange="10000"
+                                Maximum="150000"
+                                Minimum="0"
+                                PlaceholderText="주유 금액을 입력해주세요"
+                                SmallChange="10000"
+                                Text="{Binding Amount, StringFormat={}{0:F0}}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="리터당 가격" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.UnitPrice}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="리터" />
+                            <TextBox
+                                IsEnabled="False"
+                                Text="{Binding PaymentRequestPacket.Volume, Mode=OneWay, StringFormat={}{0:F2}}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="결제 방식" />
+                            <ComboBox
+                                Grid.Row="1"
+                                ItemsSource="{Binding PaymentMethods}"
+                                SelectedIndex="0"
+                                SelectedItem="{Binding PaymentMethod}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource PaymentMethodsConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource LabeledInputStyle}">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="카드 번호" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox
+                                    x:Name="CardNumber1"
+                                    Width="57"
+                                    Margin="0,0,7,0"
+                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                    MaxLength="4"
+                                    PreviewTextInput="CardNumber_PreviewTextInput"
+                                    Text="{Binding CardNumber1, UpdateSourceTrigger=PropertyChanged}"
+                                    TextChanged="CardNumber_TextChanged" />
+                                <TextBox
+                                    x:Name="CardNumber2"
+                                    Width="57"
+                                    Margin="0,0,7,0"
+                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                    IsEnabled="{Binding IsCardNumber2Enabled}"
+                                    MaxLength="4"
+                                    PreviewTextInput="CardNumber_PreviewTextInput"
+                                    Text="{Binding CardNumber2, UpdateSourceTrigger=PropertyChanged}"
+                                    TextChanged="CardNumber_TextChanged" />
+                                <TextBox
+                                    x:Name="CardNumber3"
+                                    Width="57"
+                                    Margin="0,0,7,0"
+                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                    IsEnabled="{Binding IsCardNumber3Enabled}"
+                                    MaxLength="4"
+                                    PreviewTextInput="CardNumber_PreviewTextInput"
+                                    Text="{Binding CardNumber3, UpdateSourceTrigger=PropertyChanged}"
+                                    TextChanged="CardNumber_TextChanged" />
+                                <TextBox
+                                    x:Name="CardNumber4"
+                                    Width="57"
+                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                    IsEnabled="{Binding IsCardNumber4Enabled}"
+                                    MaxLength="4"
+                                    PreviewKeyDown="CardNumber4_PreviewKeyDown"
+                                    PreviewTextInput="CardNumber_PreviewTextInput"
+                                    Text="{Binding CardNumber4, UpdateSourceTrigger=PropertyChanged}"
+                                    TextChanged="CardNumber_TextChanged" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <ui:Button
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Height="33"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Appearance="Info"
+                        Background="#678ffc"
+                        Command="{Binding RollDiceCommand}"
+                        Content="임의값 입력"
+                        Icon="{ui:FontIcon '🎲'}"
+                        MouseOverBackground="#789bfc"
+                        PressedBackground="#abc1fd" />
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Border
+                Margin="10,0"
+                Style="{StaticResource SectionBorderStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
+                        Margin="15,15,15,0"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="TX" />
+                            <TextBlock
+                                Margin="15,0,0,0"
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="{Binding TxTimestamp}" />
+                        </StackPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Text="{Binding DisplayRequestPacket}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="15,5,15,0"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="RX" />
+                            <TextBlock
+                                Margin="15,0,0,0"
+                                Style="{StaticResource CustomLabelStyle}"
+                                Text="{Binding RxTimestamp}" />
+                        </StackPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Text="{Binding PacketStringResponse}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2">
+            <ui:Button
+                Height="45"
+                Margin="10"
+                HorizontalAlignment="Center"
+                Appearance="Info"
+                Background="#5783fc"
+                Command="{Binding SendPacketCommand}"
+                Content="패킷 전송"
+                Icon="{ui:SymbolIcon Send24}"
+                MouseOverBackground="#789bfc"
+                PressedBackground="#abc1fd" />
+        </Grid>
+    </Grid>
+</Window>

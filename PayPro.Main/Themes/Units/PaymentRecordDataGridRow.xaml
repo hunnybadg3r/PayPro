@@ -1,0 +1,253 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrls="clr-namespace:PayPro.Main.Controls.Units"
+    xmlns:cvtrs="clr-namespace:PayPro.Main.Local.Converters">
+    <cvtrs:DateTimeShortYearConverter x:Key="DateTimeShortYearConverter" />
+    <FontFamily x:Key="NotoSansKR">pack://application:,,,/PayPro.Resources;component/Fonts/#Noto Sans KR</FontFamily>
+    <Style TargetType="{x:Type ctrls:PaymentRecordDataGridRow}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontFamily" Value="{StaticResource NotoSansKR}" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ctrls:PaymentRecordDataGridRow}">
+                    <Border
+                        Height="36"
+                        Background="{TemplateBinding Background}">
+                        <Border
+                            BorderBrush="#e9edf4"
+                            BorderThickness="0,0,0,1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{Binding TransactionId}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{Binding Timestamp, Converter={StaticResource DateTimeShortYearConverter}}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <StackPanel
+                                    Grid.Column="2"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <Ellipse
+                                        Width="10"
+                                        Height="10"
+                                        Margin="0,3,5,0">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Fill" Value="Transparent" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding FuelType}"
+                                                        Value="휘발유">
+                                                        <Setter Property="Fill" Value="#FFC300" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding FuelType}"
+                                                        Value="경유">
+                                                        <Setter Property="Fill" Value="#009E60" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{TemplateBinding FontFamily}"
+                                        Text="{Binding FuelType}"
+                                        TextTrimming="CharacterEllipsis" />
+
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    FontWeight="Bold"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{Binding Amount, StringFormat={}{0:N0}}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{Binding Liters}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <Grid Grid.Column="5">
+                                    <TextBlock
+                                        Margin="15,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{TemplateBinding FontFamily}"
+                                        FontSize="14"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        Text="{Binding PaymentMethod}"
+                                        TextTrimming="CharacterEllipsis">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding PaymentMethod}"
+                                                        Value="현금">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <Viewbox
+                                        x:Name="LogoVisaCard"
+                                        Width="35"
+                                        Margin="-20,0,0,0"
+                                        Stretch="Uniform">
+                                        <Canvas
+                                            Width="2185.0435"
+                                            Height="748.17389"
+                                            UseLayoutRounding="False">
+                                            <Canvas.Clip>
+                                                <RectangleGeometry Rect="0.0,0.0,2185.0435,748.17389" />
+                                            </Canvas.Clip>
+                                            <Canvas UseLayoutRounding="False">
+                                                <Path Fill="#ffe4a33f">
+                                                    <Path.Data>
+                                                        <PathGeometry
+                                                            Figures="m 437.28 381.105 c -6.4359 -15.9721 -21.2684 -45.0034 -32.7572 -64.1149 C 356.183 236.577 287.854 171.177 198.783 120.068 C 148.478 91.2027 86.7856 65.2097 41.2174 53.6803 C 34.9043 52.083 29.5931 50.6707 29.4146 50.5417 c -0.178518 -0.12891 0.340236 -2.51441 1.15279 -5.30111 l 1.47737 -5.06672 l 142.673 -0.264589 c 138.294 -0.256469 142.983 -0.20163 152.76 1.78675 c 15.574 3.16714 27.7348 9.60901 38.2765 20.2761 c 8.21617 8.31385 14.1858 17.6897 17.1295 26.9034 c 1.37547 4.30515 59.6393 302.688 59.1919 303.136 c -0.15745 0.15745 -2.31569 -4.75018 -4.79609 -10.9058 z"
+                                                            FillRule="Nonzero" />
+                                                    </Path.Data>
+                                                </Path>
+                                                <Path Fill="#ff2465ae">
+                                                    <Path.Data>
+                                                        <PathGeometry
+                                                            Figures="m 1214.94 710.515 c -55.8734 -2.908 -115.36 -15.4406 -158.465 -33.3852 c -6.009 -2.50153 -7.7291 -3.66851 -7.3422 -4.98112 c 0.278 -0.94282 5.9604 -33.6446 12.6276 -72.6707 c 6.6673 -39.0261 12.3088 -71.5392 12.5366 -72.2514 c 0.2686 -0.83949 2.7206 0.29948 6.9724 3.23877 c 26.5316 18.3411 68.6887 32.211 118.21 38.8917 c 19.3441 2.6096 64.2941 2.66633 80.4748 0.10155 c 29.9996 -4.75521 50.0845 -12.978 63.2271 -25.8852 c 21.8442 -21.4531 19.7504 -52.9759 -5.0589 -76.1628 c -12.8463 -12.0062 -28.142 -21.6753 -69.1197 -43.6937 c -46.9382 -25.2211 -60.7967 -33.6039 -80.9924 -48.9912 c -13.724 -10.4564 -31.7721 -28.6329 -40.025 -40.3096 c -11.6914 -16.5419 -20.8383 -37.7648 -24.952 -57.8946 c -2.6369 -12.9029 -2.5489 -50.5175 0.1538 -65.7391 c 11.4757 -64.6325 49.9466 -112.775 115.945 -145.094 c 43.599 -21.3502 95.2844 -34.1633 151.332 -37.5162 c 45.652 -2.731 105.376 6.14677 159.624 23.7277 c 11.9963 3.88776 12.5137 4.17447 12.3294 6.83218 c -0.2479 3.57313 -23.429 137.838 -23.8864 138.349 c -0.1897 0.21218 -5.6496 -1.96779 -12.1331 -4.84438 c -46.2229 -20.5082 -112.546 -29.8434 -160.957 -22.6551 c -39.9018 5.92483 -63.3486 22.0533 -67.2465 46.2572 c -3.4777 21.5945 9.5898 38.6842 47.0642 61.5511 c 3.8484 2.34824 20.0484 11.3902 36 20.0933 c 71.3978 38.9539 100.885 60.7734 124.173 91.8857 c 22.2119 29.6739 31.5915 58.3343 31.6063 96.5774 c 0.015 38.8677 -9.0862 71.9104 -28.3718 103.005 c -42.2695 68.1526 -136.173 114.76 -245.013 121.608 c -18.8921 1.18865 -25.1411 1.18302 -48.7137 -0.0439 z M 358.425 698.875 c -0.86917 -2.42013 -148.686 -570.796 -148.686 -571.718 c 0 -1.03006 11.2732 5.88493 29.7047 18.2209 c 79.8927 53.471 141.985 122.874 183.687 205.315 c 17.4245 34.4464 18.2266 36.9731 28.7901 90.6982 c 5.1344 26.113 9.67938 48.3126 10.1 49.3323 c 0.51652 1.2523 25.9663 -68.0017 78.4179 -213.391 c 42.7093 -118.385 79.5067 -220.293 81.772 -226.463 l 4.1188 -11.2174 l 92.2264 0 c 50.7245 0 92.2124 0.352174 92.1953 0.782608 c -0.0171 0.430435 -61.4142 148.93 -136.438 330 l -136.407 329.217 l -89.5055 0.2667 c -71.0647 0.21176 -89.6025 -0.003 -89.9761 -1.04347 z m 412.731 0.5159 c 0.0855 -2.66609 107.226 -658.817 107.645 -659.235 c 0.28406 -0.284057 38.9993 -0.396331 86.0338 -0.249498 l 85.5173 0.26697 l -48.6541 298.957 C 974.937 503.557 950.78 652.057 948.014 669.13 l -5.02873 31.0435 h -85.9275 c -47.2601 0 -85.9162 -0.35217 -85.9023 -0.78261 z m 754.41 0.14744 c 0 -1.31608 258.032 -615.713 260.525 -620.334 c 6.9358 -12.8539 19.5966 -24.4011 34.2572 -31.2441 c 17.2378 -8.04584 12.6787 -7.68027 100.406 -8.05119 l 78.4925 -0.331879 l 0.5645 2.38529 c 0.3105 1.31191 31.0722 148.89 68.3594 327.95 c 37.2871 179.061 68.0472 326.625 68.3558 327.92 l 0.561 2.35439 l -79.0476 -0.26743 l -79.0476 -0.26744 l -9.9701 -48.5217 l -9.9702 -48.5217 l -109.525 -0.24633 l -109.525 -0.24632 l -17.7535 48.7681 l -17.7535 48.7681 l -89.4639 0.2667 c -49.2051 0.14668 -89.4639 -0.0244 -89.4639 -0.38013 z m 404.87 -234.579 c 0 -2.13606 -48.9954 -240.768 -49.9008 -243.042 c -0.5215 -1.30977 -14.3095 35.2023 -43.9361 116.348 c -23.7469 65.0411 -44.037 120.487 -45.0892 123.213 l -1.913 4.95652 h 70.4195 c 59.9901 0 70.4196 -0.21849 70.4196 -1.47522 z"
+                                                            FillRule="Nonzero" />
+                                                    </Path.Data>
+                                                </Path>
+                                            </Canvas>
+                                        </Canvas>
+                                        <Viewbox.Style>
+                                            <Style TargetType="Viewbox">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding PaymentMethod}"
+                                                        Value="카드">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Viewbox.Style>
+                                    </Viewbox>
+
+                                    <Path
+                                        x:Name="LogoOilPay"
+                                        Width="35"
+                                        Margin="-20,3,0,0"
+                                        Data="m 124.49358,191.01705 c 0.0993,-1.72414 0.17159,-1.85604 1.07471,-1.95995 0.53256,-0.0613 0.96828,-0.32189 0.96828,-0.57915 0,-0.25725 -0.87145,-2.57511 -1.93656,-5.1508 -1.06511,-2.57568 -1.93656,-4.73137 -1.93656,-4.79041 0,-0.059 1.002,-0.10734 2.22667,-0.10734 h 2.22668 l 0.84276,2.68724 0.84276,2.68724 0.4134,-1.71896 c 0.22737,-0.94543 0.51283,-2.15469 0.63435,-2.68724 0.21078,-0.92375 0.31779,-0.96828 2.32684,-0.96828 1.52844,0 2.10591,0.12975 2.10591,0.47317 0,0.7328 -3.4691,10.41987 -4.14887,11.58526 -0.75007,1.28591 -2.80816,2.37775 -4.48201,2.37775 h -1.26478 z  m -46.773086,-1.99526 c -5.370737,-1.34437 -7.605306,-7.89818 -4.092286,-12.00235 3.225915,-3.76876 8.583813,-3.76376 11.814881,0.011 1.439631,1.68188 1.824993,3.05859 1.577405,5.63529 -0.407304,4.23889 -5.058511,7.41773 -9.3,6.35604 z  m 3.401947,-4.43425 c 1.262985,-0.65312 1.753464,-1.51765 1.753464,-3.09071 0,-1.82455 -1.320857,-3.07044 -3.240133,-3.05624 -1.628382,0.012 -2.39379,0.42448 -3.040193,1.63814 -0.896783,1.68378 -0.351122,3.61106 1.271722,4.49175 1.234992,0.6702 1.9845,0.67413 3.25514,0.0171 z  m 32.839239,4.3664 c -0.63643,-0.18397 -1.56083,-0.8899 -2.11261,-1.61332 -0.84622,-1.10945 -0.98104,-1.60826 -0.98104,-3.62969 0,-2.01957 0.13515,-2.52067 0.9778,-3.62545 1.27707,-1.67433 3.20449,-2.25625 4.99506,-1.5081 0.68488,0.28616 1.24523,0.36993 1.24523,0.18615 0,-0.18377 0.87145,-0.33413 1.93656,-0.33413 h 1.93656 v 5.28153 5.28153 h -1.93656 c -1.06511,0 -1.93656,-0.15036 -1.93656,-0.33414 0,-0.18377 -0.54947,-0.10455 -1.22105,0.17606 -1.36873,0.57189 -1.3424,0.5708 -2.90339,0.11956 z  m 3.83641,-4.36276 c 0.61338,-1.34624 -0.0987,-2.64076 -1.45254,-2.64076 -1.60467,0 -2.3624,1.83247 -1.22715,2.96772 0.86251,0.86251 2.2128,0.69776 2.67969,-0.32696 z  m -29.486362,3.94339 c -0.09664,-0.25184 -0.131279,-2.58892 -0.07698,-5.19351 l 0.09874,-4.73561 2.024587,-0.1056 2.024587,-0.1056 v 5.29911 5.2991 H 90.43505 c -1.273577,0 -2.008423,-0.15847 -2.123322,-0.45789 z  m 5.479343,-7.11231 v -7.57019 h 1.936562 1.936561 v 7.57019 7.5702 h -1.936561 -1.936562 z  m 5.633634,0.12549 v -7.44471 l 3.680825,0.18786 c 2.96389,0.15126 3.92569,0.33919 4.93797,0.96481 1.59299,0.98453 2.29637,2.34297 2.29637,4.43502 0,3.03956 -2.10524,5.0765 -5.24672,5.0765 h -1.44322 v 2.11262 2.11261 h -2.11261 -2.112615 z  m 6.689945,-1.84833 c 0,-0.85863 -0.57961,-1.27002 -1.78931,-1.27002 -0.51572,0 -0.67541,0.24974 -0.67541,1.0563 0,0.97247 0.0978,1.05631 1.23236,1.05631 1.06509,0 1.23236,-0.11437 1.23236,-0.84259 z  m -17.029474,-2.35189 c -1.137386,-0.89466 -1.200787,-2.15734 -0.157142,-3.12964 0.923261,-0.86015 1.622988,-0.90462 2.672079,-0.16981 0.779676,0.54611 1.048544,2.03024 0.513081,2.83217 -0.23994,0.35934 -1.603559,1.19704 -1.948564,1.19704 -0.08344,0 -0.569197,-0.32839 -1.079454,-0.72976 z"
+                                        Fill="#5783fc"
+                                        Stretch="Uniform">
+                                        <Path.Style>
+                                            <Style TargetType="Path">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding PaymentMethod}"
+                                                        Value="간편">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Path.Style>
+                                    </Path>
+                                </Grid>
+
+                                <StackPanel
+                                    Grid.Column="6"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{TemplateBinding FontFamily}"
+                                        FontSize="14"
+                                        Text="{Binding Status}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <Path
+                                        Width="13"
+                                        Margin="3,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Stretch="Uniform">
+                                        <Path.Style>
+                                            <Style TargetType="Path">
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding Status}"
+                                                        Value="대기">
+                                                        <Setter Property="Data" Value="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+                                                        <Setter Property="Fill" Value="#CCCCCC" />
+                                                        <Setter Property="RenderTransform">
+                                                            <Setter.Value>
+                                                                <ScaleTransform ScaleX="0.75" ScaleY="0.75" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Status}"
+                                                        Value="승인">
+                                                        <Setter Property="Data" Value="M9 16.17L4.83 12a1 1 0 00-1.42 1.41l5 5a1 1 0 001.41 0l10-10a1 1 0 00-1.41-1.41L9 16.17z" />
+                                                        <Setter Property="Fill" Value="Green" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Status}"
+                                                        Value="실패">
+                                                        <Setter Property="Data" Value="M6.7 5.3a1 1 0 00-1.4 1.4L10.58 12l-5.3 5.3a1 1 0 001.42 1.4L12 13.42l5.3 5.3a1 1 0 001.4-1.42L13.42 12l5.3-5.3a1 1 0 00-1.42-1.4L12 10.58 6.7 5.3z" />
+                                                        <Setter Property="Fill" Value="Red" />
+                                                        <Setter Property="RenderTransform">
+                                                            <Setter.Value>
+                                                                <ScaleTransform ScaleX="0.75" ScaleY="0.75" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Path.Style>
+                                    </Path>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

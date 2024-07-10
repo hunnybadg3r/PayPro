@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\NotoSansKR-Black.ttf" />
+    <None Remove="Fonts\NotoSansKR-Bold.ttf" />
+    <None Remove="Fonts\NotoSansKR-ExtraBold.ttf" />
+    <None Remove="Fonts\NotoSansKR-ExtraLight.ttf" />
+    <None Remove="Fonts\NotoSansKR-Light.ttf" />
+    <None Remove="Fonts\NotoSansKR-Medium.ttf" />
+    <None Remove="Fonts\NotoSansKR-Regular.ttf" />
+    <None Remove="Fonts\NotoSansKR-SemiBold.ttf" />
+    <None Remove="Fonts\NotoSansKR-Thin.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\NotoSansKR-Black.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-Bold.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-ExtraBold.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-ExtraLight.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-Light.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-Medium.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-Regular.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-SemiBold.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\NotoSansKR-Thin.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
