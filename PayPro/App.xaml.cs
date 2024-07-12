@@ -6,10 +6,10 @@ using PayPro.Main.Themes.Views;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using SkiaSharp;
-using PayPro.Contracts.Interfaces;
 using PayPro.Services;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using PayPro.Services.Interfaces;
 
 namespace PayPro
 {

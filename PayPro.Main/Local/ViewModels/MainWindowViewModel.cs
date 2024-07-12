@@ -363,14 +363,15 @@ namespace PayPro.Main.Local.ViewModels
             {
                 var randomTimeSpan = new TimeSpan(0, random.Next(0, 24), random.Next(0, 60), random.Next(0, 60));
                 var timestamp = DateTime.Now - randomTimeSpan;
-
+                var paymentMethod = paymentMethods[random.Next(paymentMethods.Length)];
+                
                 return new
                 {
                     Timestamp = timestamp,
                     FuelType = fuelTypes[random.Next(fuelTypes.Length)],
                     Amount = random.Next(1, 16) * 10000,
-                    PaymentMethod = paymentMethods[random.Next(paymentMethods.Length)],
-                    Status = random.Next(10) == 0 ? "실패" : "승인"
+                    PaymentMethod = paymentMethod,
+                    Status = paymentMethod == "현금" ? "승인" : random.Next(10) == 0 ? "실패" : "승인"
                 };
             }).OrderBy(t => t.Timestamp).ToList();
 

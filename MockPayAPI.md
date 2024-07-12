@@ -15,7 +15,7 @@ MockPayAPI는 가상의 결제 게이트웨이 역할을 수행하는 API입니다.
 {
   "transactionId": "0624-000001",
   "amount": 50000,
-  "cardNumber": "12345678901234",
+  "paymentIdentifier": "12345678901234",
   "merchantId": "HDOBO1"
 }
 ```

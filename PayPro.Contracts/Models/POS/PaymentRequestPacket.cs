@@ -119,7 +119,7 @@ namespace PayPro.Contracts.Models.POS
             }
         }
 
-        public string CardNumber { get; set; }
+        public string PaymentIdentifier { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -155,7 +155,7 @@ namespace PayPro.Contracts.Models.POS
             packetBuilder.Append(AsciiCC.FS);
             packetBuilder.Append(PaymentMethod);
             packetBuilder.Append(AsciiCC.FS);
-            packetBuilder.Append(CardNumber ?? "");
+            packetBuilder.Append(PaymentIdentifier ?? "");
             packetBuilder.Append(AsciiCC.ETX);
 
             // 체크섬 추가
@@ -210,7 +210,7 @@ namespace PayPro.Contracts.Models.POS
             packet.UnitPrice = decimal.Parse(fields[8]);
             packet.Volume = decimal.Parse(fields[9]);
             packet.PaymentMethod = fields[10];
-            packet.CardNumber = fields[11];
+            packet.PaymentIdentifier = fields[11];
 
             return packet;
         }

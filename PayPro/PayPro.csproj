@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PayPro.Contracts\PayPro.Contracts.csproj" />
     <ProjectReference Include="..\PayPro.Main\PayPro.Main.csproj" />
     <ProjectReference Include="..\PayPro.Services\PayPro.Services.csproj" />
   </ItemGroup>

@@ -21,7 +21,7 @@
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <FontFamily x:Key="NotoSansKR">pack://application:,,,/PayPro.Resources;component/Fonts/#Noto Sans KR</FontFamily>
+        <FontFamily x:Key="NotoSansKR">pack://application:,,,/PayPro.Main;component/Resources/Fonts/#Noto Sans KR</FontFamily>
         <Style
             x:Key="FloatingBorderStyle"
             TargetType="Border">

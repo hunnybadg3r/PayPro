@@ -45,9 +45,29 @@ namespace MockPOS.Main.Themes.Views
             if (e.Key == Key.Enter)
             {
                 TraversalRequest request = new TraversalRequest(FocusNavigationDirection.Next);
-                (sender as UIElement)?.MoveFocus(request); 
+                (sender as UIElement)?.MoveFocus(request);
 
-                e.Handled = true; 
+                e.Handled = true;
+            }
+        }
+
+        private void IdentificationTokenTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // 알파벳과 숫자만 허용
+            e.Handled = !System.Text.RegularExpressions.Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]");
+        }
+
+        private void IdentificationTokenTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                // 16자를 초과하는 입력을 방지
+                if (textBox.Text.Length > 16)
+                {
+                    textBox.Text = textBox.Text.Substring(0, 16);
+                    textBox.SelectionStart = 16;
+                }
             }
         }
     }

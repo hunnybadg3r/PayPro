@@ -4,7 +4,7 @@
     xmlns:ctrls="clr-namespace:PayPro.Main.Controls.Units"
     xmlns:cvtrs="clr-namespace:PayPro.Main.Local.Converters">
     <cvtrs:DateTimeShortYearConverter x:Key="DateTimeShortYearConverter" />
-    <FontFamily x:Key="NotoSansKR">pack://application:,,,/PayPro.Resources;component/Fonts/#Noto Sans KR</FontFamily>
+    <FontFamily x:Key="NotoSansKR">pack://application:,,,/PayPro.Main;component/Resources/Fonts/#Noto Sans KR</FontFamily>
     <Style TargetType="{x:Type ctrls:PaymentRecordDataGridRow}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FontFamily" Value="{StaticResource NotoSansKR}" />

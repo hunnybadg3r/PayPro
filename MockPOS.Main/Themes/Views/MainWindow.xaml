@@ -185,52 +185,94 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
-                        <StackPanel Style="{StaticResource LabeledInputStyle}">
-                            <TextBlock
-                                Style="{StaticResource CustomLabelStyle}"
-                                Text="카드 번호" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBox
-                                    x:Name="CardNumber1"
-                                    Width="57"
-                                    Margin="0,0,7,0"
-                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
-                                    MaxLength="4"
-                                    PreviewTextInput="CardNumber_PreviewTextInput"
-                                    Text="{Binding CardNumber1, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="CardNumber_TextChanged" />
-                                <TextBox
-                                    x:Name="CardNumber2"
-                                    Width="57"
-                                    Margin="0,0,7,0"
-                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
-                                    IsEnabled="{Binding IsCardNumber2Enabled}"
-                                    MaxLength="4"
-                                    PreviewTextInput="CardNumber_PreviewTextInput"
-                                    Text="{Binding CardNumber2, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="CardNumber_TextChanged" />
-                                <TextBox
-                                    x:Name="CardNumber3"
-                                    Width="57"
-                                    Margin="0,0,7,0"
-                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
-                                    IsEnabled="{Binding IsCardNumber3Enabled}"
-                                    MaxLength="4"
-                                    PreviewTextInput="CardNumber_PreviewTextInput"
-                                    Text="{Binding CardNumber3, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="CardNumber_TextChanged" />
-                                <TextBox
-                                    x:Name="CardNumber4"
-                                    Width="57"
-                                    FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
-                                    IsEnabled="{Binding IsCardNumber4Enabled}"
-                                    MaxLength="4"
-                                    PreviewKeyDown="CardNumber4_PreviewKeyDown"
-                                    PreviewTextInput="CardNumber_PreviewTextInput"
-                                    Text="{Binding CardNumber4, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="CardNumber_TextChanged" />
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource CustomLabelStyle}"
+                                    Text="카드 번호" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox
+                                        x:Name="CardNumber1"
+                                        Width="57"
+                                        Margin="0,0,7,0"
+                                        FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                        MaxLength="4"
+                                        PreviewTextInput="CardNumber_PreviewTextInput"
+                                        Text="{Binding CardNumber1, UpdateSourceTrigger=PropertyChanged}"
+                                        TextChanged="CardNumber_TextChanged" />
+                                    <TextBox
+                                        x:Name="CardNumber2"
+                                        Width="57"
+                                        Margin="0,0,7,0"
+                                        FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                        IsEnabled="{Binding IsCardNumber2Enabled}"
+                                        MaxLength="4"
+                                        PreviewTextInput="CardNumber_PreviewTextInput"
+                                        Text="{Binding CardNumber2, UpdateSourceTrigger=PropertyChanged}"
+                                        TextChanged="CardNumber_TextChanged" />
+                                    <TextBox
+                                        x:Name="CardNumber3"
+                                        Width="57"
+                                        Margin="0,0,7,0"
+                                        FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                        IsEnabled="{Binding IsCardNumber3Enabled}"
+                                        MaxLength="4"
+                                        PreviewTextInput="CardNumber_PreviewTextInput"
+                                        Text="{Binding CardNumber3, UpdateSourceTrigger=PropertyChanged}"
+                                        TextChanged="CardNumber_TextChanged" />
+                                    <TextBox
+                                        x:Name="CardNumber4"
+                                        Width="57"
+                                        FocusVisualStyle="{StaticResource NoFocusVisualStyle}"
+                                        IsEnabled="{Binding IsCardNumber4Enabled}"
+                                        MaxLength="4"
+                                        PreviewKeyDown="CardNumber4_PreviewKeyDown"
+                                        PreviewTextInput="CardNumber_PreviewTextInput"
+                                        Text="{Binding CardNumber4, UpdateSourceTrigger=PropertyChanged}"
+                                        TextChanged="CardNumber_TextChanged" />
+                                </StackPanel>
+                                <StackPanel.Style>
+                                    <Style
+                                        BasedOn="{StaticResource LabeledInputStyle}"
+                                        TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding PaymentMethod}"
+                                                Value="CREDIT_CARD">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
                             </StackPanel>
-                        </StackPanel>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource CustomLabelStyle}"
+                                    Text="식별 토큰" />
+                                <ui:TextBox
+                                    x:Name="IdentificationTokenTextBox"
+                                    MaxLength="16"
+                                    PlaceholderText="16자리 알파벳 대소문자와 숫자"
+                                    PreviewTextInput="IdentificationTokenTextBox_PreviewTextInput"
+                                    Text="{Binding IdentificationToken, UpdateSourceTrigger=PropertyChanged}"
+                                    TextChanged="IdentificationTokenTextBox_TextChanged" />
+                                <StackPanel.Style>
+                                    <Style
+                                        BasedOn="{StaticResource LabeledInputStyle}"
+                                        TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding PaymentMethod}"
+                                                Value="DIGITAL_WALLET">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                     <ui:Button
                         Grid.Row="1"

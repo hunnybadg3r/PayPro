@@ -38,9 +38,9 @@ app.MapPost("/api/payment", async (PaymentRequest paymentRequest) =>
         return Results.BadRequest("Amount must be at least 1.");
     }
 
-    if (paymentRequest.CardNumber.Length < 14 || paymentRequest.CardNumber.Length > 16)
+    if (paymentRequest.PaymentIdentifier.Length < 14 || paymentRequest.PaymentIdentifier.Length > 16)
     {
-        return Results.BadRequest("CardNumber must be between 14 and 16 characters.");
+        return Results.BadRequest("PaymentIdentifier must be between 14 and 16 characters.");
     }
 
     if (paymentRequest.MerchantId.Length < 5)

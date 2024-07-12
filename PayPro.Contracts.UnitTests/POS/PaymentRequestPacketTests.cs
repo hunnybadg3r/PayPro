@@ -18,7 +18,7 @@ public class PaymentRequestPacketTests
             Amount = 50000.50m,
             UnitPrice = 1652.89m,
             PaymentMethod = "CREDIT_CARD", // DIGITAL_WALLET
-            CardNumber = "1234567890123456",
+            PaymentIdentifier = "1234567890123456",
         };
 
         return paymentRequestPacket;
@@ -46,7 +46,7 @@ public class PaymentRequestPacketTests
         Assert.Equal(originalPacket.UnitPrice, reconstructedPacket.UnitPrice);
         Assert.Equal(originalPacket.Volume, reconstructedPacket.Volume);
         Assert.Equal(originalPacket.PaymentMethod, reconstructedPacket.PaymentMethod);
-        Assert.Equal(originalPacket.CardNumber, reconstructedPacket.CardNumber);
+        Assert.Equal(originalPacket.PaymentIdentifier, reconstructedPacket.PaymentIdentifier);
 
         // √º≈©º∂ ∞À¡ı
         string originalChecksum = packetString.Substring(packetString.IndexOf((char)0x03) + 1).Trim();

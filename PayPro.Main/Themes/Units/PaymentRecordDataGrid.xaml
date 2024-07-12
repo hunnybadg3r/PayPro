@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ctrls="clr-namespace:PayPro.Main.Controls.Units">
-    <FontFamily x:Key="NotoSansKR">pack://application:,,,/PayPro.Resources;component/Fonts/#Noto Sans KR</FontFamily>
+    <FontFamily x:Key="NotoSansKR">pack://application:,,,/PayPro.Main;component/Resources/Fonts/#Noto Sans KR</FontFamily>
 
     <SolidColorBrush
         x:Key="NormalBrush"

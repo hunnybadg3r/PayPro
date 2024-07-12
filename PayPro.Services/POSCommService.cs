@@ -3,11 +3,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.IO.Ports;
 using System.Text;
-using PayPro.Contracts.Interfaces;
 using PayPro.Contracts.Models.Payment;
 using PayPro.Contracts.Models.POS;
 using CommunityToolkit.Mvvm.Messaging;
 using PayPro.Contracts.Messages;
+using PayPro.Services.Interfaces;
 
 namespace PayPro.Services
 {
@@ -124,7 +124,7 @@ namespace PayPro.Services
             {
                 TransactionId = requestFromPOS.TransactionId,
                 Amount = requestFromPOS.Amount,
-                CardNumber = requestFromPOS.CardNumber,
+                PaymentIdentifier = requestFromPOS.PaymentIdentifier,
                 MerchantId = requestFromPOS.LocationId,
             };
 

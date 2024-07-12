@@ -14,7 +14,7 @@ namespace MockPOS.Main.Local.ViewModels
         private SerialPort _serialPort;
         private int _transactionCount = 100001;
 
-        private string _fuelType;
+        private string _fuelType = "GASOLINE";
         public string FuelType
         {
             get => _fuelType;
@@ -48,18 +48,35 @@ namespace MockPOS.Main.Local.ViewModels
 
         private void CheckAndGeneratePacket()
         {
-            if (PaymentRequestPacket.CardNumber.Length > 13)
+            if (PaymentMethod == "CREDIT_CARD")
             {
-                PacketStringRequest = PaymentRequestPacket.GeneratePacket();
+                if (PaymentRequestPacket.PaymentIdentifier.Length > 13)
+                {
+                    PacketStringRequest = PaymentRequestPacket.GeneratePacket();
 
-                //Update Packet
-                DisplayRequestPacket = ControlCharacterHelper.ConvertToReadableString(PacketStringRequest);
-                TxTimestamp = null;
-                IsPacketSent = false;
+                    UpdatePacketDisplay();
+                }
+            }
+            else if (PaymentMethod == "DIGITAL_WALLET")
+            {
+                if (IdentificationToken.Length == 16)
+                {
+                    PaymentRequestPacket.PaymentIdentifier = IdentificationToken;
+                    PacketStringRequest = PaymentRequestPacket.GeneratePacket();
+
+                    UpdatePacketDisplay();
+                }
             }
         }
 
-        private string _paymentMethod;
+        private void UpdatePacketDisplay()
+        {
+            DisplayRequestPacket = ControlCharacterHelper.ConvertToReadableString(PacketStringRequest);
+            TxTimestamp = null;
+            IsPacketSent = false;
+        }
+
+        private string _paymentMethod = "CREDIT_CARD";
         public string PaymentMethod
         {
             get => _paymentMethod;
@@ -67,9 +84,36 @@ namespace MockPOS.Main.Local.ViewModels
             {
                 if (_paymentMethod != value)
                 {
-                    PaymentRequestPacket.PaymentMethod = value;
-                    CheckAndGeneratePacket();
                     _paymentMethod = value;
+                    PaymentRequestPacket.PaymentMethod = value;
+                    
+                    CardNumber1 = "";
+                    CardNumber2 = "";
+                    CardNumber3 = "";
+                    CardNumber4 = "";
+
+                    IdentificationToken = "";
+
+                    PaymentRequestPacket.PaymentIdentifier = "";
+                    
+                    DisplayRequestPacket = "";
+
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        //IdentificationToken
+        private string _identificationToken;
+        public string IdentificationToken
+        {
+            get => _identificationToken;
+            set
+            {
+                if (_identificationToken != value)
+                {
+                    _identificationToken = value;
+                    CheckAndGeneratePacket();
                     OnPropertyChanged();
                 }
             }
@@ -113,15 +157,15 @@ namespace MockPOS.Main.Local.ViewModels
         private string _cardNumber1, _cardNumber2, _cardNumber3, _cardNumber4;
         private bool _isCardNumber2Enabled, _isCardNumber3Enabled, _isCardNumber4Enabled;
 
-        private string _displayCardNumber;
+        private string _displayRequestPacket;
         public string DisplayRequestPacket
         {
-            get => _displayCardNumber;
+            get => _displayRequestPacket;
             set
             {
-                if (_displayCardNumber != value)
+                if (_displayRequestPacket != value)
                 {
-                    _displayCardNumber = value;
+                    _displayRequestPacket = value;
                     OnPropertyChanged();
                 }
             }
@@ -136,7 +180,7 @@ namespace MockPOS.Main.Local.ViewModels
                 {
                     _cardNumber1 = value;
                     OnPropertyChanged();
-                    UpdateCardNumberStates();
+                    UpdateCardNumbersStates();
                 }
             }
         }
@@ -150,7 +194,7 @@ namespace MockPOS.Main.Local.ViewModels
                 {
                     _cardNumber2 = value;
                     OnPropertyChanged();
-                    UpdateCardNumberStates();
+                    UpdateCardNumbersStates();
                 }
             }
         }
@@ -164,7 +208,7 @@ namespace MockPOS.Main.Local.ViewModels
                 {
                     _cardNumber3 = value;
                     OnPropertyChanged();
-                    UpdateCardNumberStates();
+                    UpdateCardNumbersStates();
                 }
             }
         }
@@ -178,7 +222,7 @@ namespace MockPOS.Main.Local.ViewModels
                 {
                     _cardNumber4 = value;
                     OnPropertyChanged();
-                    UpdateCardNumberStates();
+                    UpdateCardNumbersStates();
                 }
             }
         }
@@ -222,12 +266,12 @@ namespace MockPOS.Main.Local.ViewModels
             }
         }
 
-        private void UpdateCardNumberStates()
+        private void UpdateCardNumbersStates()
         {
             IsCardNumber2Enabled = CardNumber1?.Length == 4;
             IsCardNumber3Enabled = CardNumber2?.Length == 4;
             IsCardNumber4Enabled = CardNumber3?.Length == 4;
-            UpdateFullCardNumber();
+            UpdateFullPaymentIdentifier();
         }
 
         public MainWindowViewModel()
@@ -243,9 +287,9 @@ namespace MockPOS.Main.Local.ViewModels
                 FuelType = "GASOLINE",
                 Amount = 50000.0m,
                 UnitPrice = 1652.89m,
-                Volume = 0,
+                Volume = 30.25m,
                 PaymentMethod = "CREDIT_CARD",
-                CardNumber = "",
+                PaymentIdentifier = "",
             };
         }
 
@@ -294,26 +338,39 @@ namespace MockPOS.Main.Local.ViewModels
                 PaymentMethod = "DIGITAL_WALLET";
             }
 
-            int length = _random.Next(14, 17);
-            var randomCardNumber = GenerateRandomCardNumber(length);
+            switch (PaymentMethod)
+            {
+                case "CREDIT_CARD":
+                    {
+                        int length = _random.Next(14, 17);
+                        var randomPaymentIdentifier = GenerateRandomPaymentIdentifier(length);
 
-            CardNumber1 = randomCardNumber.Substring(0, 4);
-            CardNumber2 = randomCardNumber.Substring(4, 4);
-            CardNumber3 = randomCardNumber.Substring(8, 4);
-            CardNumber4 = randomCardNumber.Substring(12, Math.Min(4, length - 12));
+                        CardNumber1 = randomPaymentIdentifier.Substring(0, 4);
+                        CardNumber2 = randomPaymentIdentifier.Substring(4, 4);
+                        CardNumber3 = randomPaymentIdentifier.Substring(8, 4);
+                        CardNumber4 = randomPaymentIdentifier.Substring(12, Math.Min(4, length - 12));
+                        break;
+                    }
+
+                case "DIGITAL_WALLET":
+                    {
+                        IdentificationToken = TokenGenerator.GenerateToken(16);
+                        break;
+                    }
+            }
         }
 
-        private string GenerateRandomCardNumber(int length)
+        private string GenerateRandomPaymentIdentifier(int length)
         {
             string digits = "0123456789";
-            char[] cardNumber = new char[length];
+            char[] PaymentIdentifier = new char[length];
 
             for (int i = 0; i < length; i++)
             {
-                cardNumber[i] = digits[_random.Next(digits.Length)];
+                PaymentIdentifier[i] = digits[_random.Next(digits.Length)];
             }
 
-            return new string(cardNumber);
+            return new string(PaymentIdentifier);
         }
 
         [RelayCommand(CanExecute = nameof(CanSendPacket))]
@@ -322,7 +379,7 @@ namespace MockPOS.Main.Local.ViewModels
             _serialPort.Write(PacketStringRequest);
             TxTimestamp = DateTime.Now.ToString();
             IsPacketSent = true;
-            
+
             _transactionCount++;
             PaymentRequestPacket.TransactionId = $"{DateTime.Now:MMdd}-{_transactionCount:D6}";
         }
@@ -332,11 +389,11 @@ namespace MockPOS.Main.Local.ViewModels
             return !string.IsNullOrEmpty(PacketStringRequest) && !IsPacketSent;
         }
 
-        private void UpdateFullCardNumber()
+        private void UpdateFullPaymentIdentifier()
         {
-            PaymentRequestPacket.CardNumber = $"{CardNumber1}{CardNumber2}{CardNumber3}{CardNumber4}".Trim();
+            PaymentRequestPacket.PaymentIdentifier = $"{CardNumber1}{CardNumber2}{CardNumber3}{CardNumber4}".Trim();
 
-            if (PaymentRequestPacket.CardNumber.Length > 13)
+            if (PaymentRequestPacket.PaymentIdentifier.Length > 13)
             {
                 PacketStringRequest = PaymentRequestPacket.GeneratePacket();
 

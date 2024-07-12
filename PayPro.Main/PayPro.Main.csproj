@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\NotoSansKR-Black.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-Bold.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-ExtraBold.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-ExtraLight.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-Light.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-Medium.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-Regular.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-SemiBold.ttf" />
+    <None Remove="Resources\Fonts\NotoSansKR-Thin.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc2" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
@@ -14,7 +26,36 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PayPro.Contracts\PayPro.Contracts.csproj" />
-    <ProjectReference Include="..\PayPro.Resources\PayPro.Resources.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\NotoSansKR-Black.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-Bold.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-ExtraBold.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-ExtraLight.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-Light.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-Medium.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-Regular.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-SemiBold.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\NotoSansKR-Thin.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

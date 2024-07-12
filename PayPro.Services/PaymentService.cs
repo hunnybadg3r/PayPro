@@ -2,8 +2,8 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using PayPro.Contracts.Interfaces;
 using PayPro.Contracts.Models.Payment;
+using PayPro.Services.Interfaces;
 
 namespace PayPro.Services
 {
