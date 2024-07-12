@@ -52,6 +52,7 @@ namespace MockPOS.Main.Local.ViewModels
             {
                 if (PaymentRequestPacket.PaymentIdentifier.Length > 13)
                 {
+                    PaymentRequestPacket.Timestamp = DateTime.Now;
                     PacketStringRequest = PaymentRequestPacket.GeneratePacket();
 
                     UpdatePacketDisplay();
@@ -62,6 +63,7 @@ namespace MockPOS.Main.Local.ViewModels
                 if (IdentificationToken.Length == 16)
                 {
                     PaymentRequestPacket.PaymentIdentifier = IdentificationToken;
+                    PaymentRequestPacket.Timestamp = DateTime.Now;
                     PacketStringRequest = PaymentRequestPacket.GeneratePacket();
 
                     UpdatePacketDisplay();
@@ -395,6 +397,7 @@ namespace MockPOS.Main.Local.ViewModels
 
             if (PaymentRequestPacket.PaymentIdentifier.Length > 13)
             {
+                PaymentRequestPacket.Timestamp = DateTime.Now;
                 PacketStringRequest = PaymentRequestPacket.GeneratePacket();
 
                 //Update Packet
