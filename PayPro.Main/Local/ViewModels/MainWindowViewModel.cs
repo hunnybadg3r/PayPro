@@ -294,42 +294,44 @@ namespace PayPro.Main.Local.ViewModels
                     paymentRecord.Timestamp = message.Value.payRes.TransactionDateTime;
 
                     HighlightPaymentRecord(paymentRecord);
-
-                    //update dashboard charts
-                    switch (paymentRecord.FuelType)
+                    if (paymentRecord.Status =="승인")
                     {
-                        case "휘발유":
-                            PieSeriesGasolineValues[0].Volume++;
-                            break;
-                        case "경유":
-                            PieSeriesDieselValues[0].Volume++;
-                            break;
-                    }
-
-                    switch (paymentRecord.PaymentMethod)
-                    {
-                        case "카드":
-                            PieSeriesCreditCardValues[0].Volume++;
-                            break;
-                        case "간편":
-                            PieSeriesDigitalWalletValues[0].Volume++;
-                            break;
-                        case "현금":
-                            PieSeriesCashlValues[0].Volume++;
-                            break;
-                    }
-
-                    _totalRevenue += (int)Math.Round(paymentRecord.Amount / 10000m, MidpointRounding.AwayFromZero);
-                    _totalVisitor ++;
-
-                    UpdateRevenueAndVisitorMetrics();
-
-                    if (_totalVisitor >= _totalVisitorYesterday)
-                    {
-                        if (SeriesVisitor[0] is LineSeries<double> lineSeries && lineSeries.Fill != _redLinearGradientPaint)
+                        //update dashboard charts
+                        switch (paymentRecord.FuelType)
                         {
-                            lineSeries.Fill = _redLinearGradientPaint;
-                            lineSeries.Stroke = _redStroke;
+                            case "휘발유":
+                                PieSeriesGasolineValues[0].Volume++;
+                                break;
+                            case "경유":
+                                PieSeriesDieselValues[0].Volume++;
+                                break;
+                        }
+
+                        switch (paymentRecord.PaymentMethod)
+                        {
+                            case "카드":
+                                PieSeriesCreditCardValues[0].Volume++;
+                                break;
+                            case "간편":
+                                PieSeriesDigitalWalletValues[0].Volume++;
+                                break;
+                            case "현금":
+                                PieSeriesCashlValues[0].Volume++;
+                                break;
+                        }
+
+                        _totalRevenue += (int)Math.Round(paymentRecord.Amount / 10000m, MidpointRounding.AwayFromZero);
+                        _totalVisitor++;
+
+                        UpdateRevenueAndVisitorMetrics();
+
+                        if (_totalVisitor >= _totalVisitorYesterday)
+                        {
+                            if (SeriesVisitor[0] is LineSeries<double> lineSeries && lineSeries.Fill != _redLinearGradientPaint)
+                            {
+                                lineSeries.Fill = _redLinearGradientPaint;
+                                lineSeries.Stroke = _redStroke;
+                            }
                         }
                     }
                 }
