@@ -14,10 +14,10 @@ namespace PayPro.Contracts.UnitTests.POS
                 PacketType = "PAYMENT_RESPONSE",
                 TransactionId = "0709-200001",
                 ResponseCode = "00",
-                ResponseMessage = "Approved",
+                Message = "Approved",
                 Timestamp = new DateTime(2024, 6, 26, 14, 30, 0),
                 ApprovalCode = "AP123456",
-                CardIssuer = "OILP",
+                Issuer = "OILP",
                 LastFourDigits = "1234",
                 ApprovedAmount = 50000.50m,
                 POSTerminalId = "POS001",
@@ -32,10 +32,10 @@ namespace PayPro.Contracts.UnitTests.POS
             Assert.Equal(originalPacket.PacketType, reconstructedPacket.PacketType);
             Assert.Equal(originalPacket.TransactionId, reconstructedPacket.TransactionId);
             Assert.Equal(originalPacket.ResponseCode, reconstructedPacket.ResponseCode);
-            Assert.Equal(originalPacket.ResponseMessage, reconstructedPacket.ResponseMessage);
+            Assert.Equal(originalPacket.Message, reconstructedPacket.Message);
             Assert.Equal(originalPacket.Timestamp, reconstructedPacket.Timestamp);
             Assert.Equal(originalPacket.ApprovalCode, reconstructedPacket.ApprovalCode);
-            Assert.Equal(originalPacket.CardIssuer, reconstructedPacket.CardIssuer);
+            Assert.Equal(originalPacket.Issuer, reconstructedPacket.Issuer);
             Assert.Equal(originalPacket.LastFourDigits, reconstructedPacket.LastFourDigits);
             Assert.Equal(originalPacket.ApprovedAmount, reconstructedPacket.ApprovedAmount);
             Assert.Equal(originalPacket.POSTerminalId, reconstructedPacket.POSTerminalId);
@@ -60,10 +60,10 @@ namespace PayPro.Contracts.UnitTests.POS
                 PacketType = "PAYMENT_RESPONSE",
                 TransactionId = "0709-200001",
                 ResponseCode = "00",
-                ResponseMessage = "Approved",
+                Message = "Approved",
                 Timestamp = new DateTime(2024, 6, 26, 14, 30, 0),
                 ApprovalCode = "AP123456",
-                CardIssuer = "OILP",
+                Issuer = "OILP",
                 LastFourDigits = "1234",
                 ApprovedAmount = 50000.50m,
                 POSTerminalId = "POS001",

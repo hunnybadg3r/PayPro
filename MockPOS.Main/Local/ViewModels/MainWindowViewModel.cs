@@ -5,6 +5,7 @@ using PayPro.Contracts.Models.POS;
 using Microsoft.Extensions.Configuration;
 using System.IO.Ports;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace MockPOS.Main.Local.ViewModels
 {
@@ -74,7 +75,9 @@ namespace MockPOS.Main.Local.ViewModels
         private void UpdatePacketDisplay()
         {
             DisplayRequestPacket = ControlCharacterHelper.ConvertToReadableString(PacketStringRequest);
+            DisplayResponsePacket = null;
             TxTimestamp = null;
+            RxTimestamp = null;
             IsPacketSent = false;
         }
 
@@ -143,6 +146,9 @@ namespace MockPOS.Main.Local.ViewModels
 
         [ObservableProperty]
         private string _packetStringResponse;
+
+        [ObservableProperty]
+        private string _displayResponsePacket;
 
         public ObservableCollection<string> FuelTypes { get; } = new ObservableCollection<string>
         {
@@ -376,7 +382,7 @@ namespace MockPOS.Main.Local.ViewModels
         }
 
         [RelayCommand(CanExecute = nameof(CanSendPacket))]
-        public void SendPacket()
+        public async Task SendPacket()
         {
             _serialPort.Write(PacketStringRequest);
             TxTimestamp = DateTime.Now.ToString();
@@ -384,6 +390,12 @@ namespace MockPOS.Main.Local.ViewModels
 
             _transactionCount++;
             PaymentRequestPacket.TransactionId = $"{DateTime.Now:MMdd}-{_transactionCount:D6}";
+
+            //TODO Read response 
+            var cts = new CancellationTokenSource();
+            PacketStringResponse = await ReadPacketAsync(cts.Token, 60_000);
+            DisplayResponsePacket = ControlCharacterHelper.ConvertToReadableString(PacketStringResponse);
+            RxTimestamp = DateTime.Now.ToString();
         }
 
         private bool CanSendPacket()
@@ -402,16 +414,84 @@ namespace MockPOS.Main.Local.ViewModels
 
                 //Update Packet
                 DisplayRequestPacket = ControlCharacterHelper.ConvertToReadableString(PacketStringRequest);
+                DisplayResponsePacket = null;
                 TxTimestamp = null;
+                RxTimestamp = null;
                 IsPacketSent = false;
             }
             else
             {
                 PacketStringRequest = null;
                 DisplayRequestPacket = null;
+                DisplayResponsePacket = null;
                 TxTimestamp = null;
+                RxTimestamp = null;
                 IsPacketSent = false;
             }
+        }
+
+        private async Task<string> ReadPacketAsync(CancellationToken cancellationToken, int timeoutMilliseconds = -1)
+        {
+            var buffer = new byte[4096];
+            var packet = new StringBuilder();
+            bool startFound = false;
+
+            CancellationToken combinedToken = cancellationToken;
+
+            if (timeoutMilliseconds > 0)
+            {
+                var timeoutCts = new CancellationTokenSource(timeoutMilliseconds);
+                var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+                combinedToken = linkedCts.Token;
+            }
+
+            try
+            {
+                while (!combinedToken.IsCancellationRequested)
+                {
+                    int bytesRead;
+                    try
+                    {
+                        bytesRead = await _serialPort.BaseStream.ReadAsync(buffer, 0, buffer.Length, combinedToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        if (timeoutMilliseconds > 0 && !cancellationToken.IsCancellationRequested)
+                        {
+                            //Time out 
+                            DisplayResponsePacket = "Time out";
+
+                            return string.Empty;
+                        }
+                        throw; 
+                    }
+
+                    for (int i = 0; i < bytesRead; i++)
+                    {
+                        char c = (char)buffer[i];
+                        if (c == '\u0002') // STX
+                        {
+                            startFound = true;
+                            packet.Clear();
+                        }
+
+                        if (startFound)
+                        {
+                            packet.Append(c);
+                            if (c == '\n' && packet.Length > 1 && packet[packet.Length - 2] == '\r')
+                            {
+                                return packet.ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                return string.Empty;
+            }
+
+            return string.Empty;
         }
     }
 }

@@ -56,7 +56,7 @@ app.MapPost("/api/payment", async (PaymentRequest paymentRequest) =>
             TransactionId = paymentRequest.TransactionId,
             Result = PaymentResult.Declined, 
             Message = "Insufficient balance", 
-            AuthorizationCode = "", 
+            ApprovalCode = "", 
             TransactionDateTime = DateTime.Now
         };
 
@@ -69,7 +69,7 @@ app.MapPost("/api/payment", async (PaymentRequest paymentRequest) =>
             TransactionId = paymentRequest.TransactionId,
             Result = PaymentResult.Success, 
             Message = "Payment successful",
-            AuthorizationCode = "0001",
+            ApprovalCode = "0001",
             TransactionDateTime = DateTime.Now
         };
 

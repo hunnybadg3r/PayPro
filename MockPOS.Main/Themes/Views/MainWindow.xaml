@@ -332,7 +332,7 @@
                         </StackPanel>
                         <TextBlock
                             FontSize="11"
-                            Text="{Binding PacketStringResponse}"
+                            Text="{Binding DisplayResponsePacket}"
                             TextWrapping="Wrap" />
                     </StackPanel>
 

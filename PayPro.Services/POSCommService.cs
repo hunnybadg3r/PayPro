@@ -8,6 +8,7 @@ using PayPro.Contracts.Models.POS;
 using CommunityToolkit.Mvvm.Messaging;
 using PayPro.Contracts.Messages;
 using PayPro.Services.Interfaces;
+using System.Transactions;
 
 namespace PayPro.Services
 {
@@ -79,34 +80,62 @@ namespace PayPro.Services
             }
         }
 
-        private async Task<string> ReadPacketAsync(CancellationToken cancellationToken)
+        private async Task<string> ReadPacketAsync(CancellationToken cancellationToken, int timeoutMilliseconds = -1)
         {
             var buffer = new byte[4096];
             var packet = new StringBuilder();
             bool startFound = false;
 
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                int bytesRead = await _serialPort.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+            CancellationToken combinedToken = cancellationToken;
 
-                for (int i = 0; i < bytesRead; i++)
+            if (timeoutMilliseconds > 0)
+            {
+                var timeoutCts = new CancellationTokenSource(timeoutMilliseconds);
+                var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+                combinedToken = linkedCts.Token;
+            }
+
+            try
+            {
+                while (!combinedToken.IsCancellationRequested)
                 {
-                    char c = (char)buffer[i];
-                    if (c == '\u0002') // STX
+                    int bytesRead;
+                    try
                     {
-                        startFound = true;
-                        packet.Clear();
+                        bytesRead = await _serialPort.BaseStream.ReadAsync(buffer, 0, buffer.Length, combinedToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        if (timeoutMilliseconds > 0 && !cancellationToken.IsCancellationRequested)
+                        {
+                            return string.Empty;
+                        }
+                        throw; 
                     }
 
-                    if (startFound)
+                    for (int i = 0; i < bytesRead; i++)
                     {
-                        packet.Append(c);
-                        if (c == '\n' && packet.Length > 1 && packet[packet.Length - 2] == '\r')
+                        char c = (char)buffer[i];
+                        if (c == '\u0002') // STX
                         {
-                            return packet.ToString();
+                            startFound = true;
+                            packet.Clear();
+                        }
+
+                        if (startFound)
+                        {
+                            packet.Append(c);
+                            if (c == '\n' && packet.Length > 1 && packet[packet.Length - 2] == '\r')
+                            {
+                                return packet.ToString();
+                            }
                         }
                     }
                 }
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                return string.Empty;
             }
 
             return string.Empty;
@@ -132,7 +161,24 @@ namespace PayPro.Services
 
             WeakReferenceMessenger.Default.Send(new AddRecordMessage((requestFromPOS, response)));
 
-            // TODO: Send response packet to POS
+            // Send response packet to POS
+            var packetResponse = new PaymentResponsePacket()
+            {
+                PacketType = "PAYMENT_RESPONSE",
+                TransactionId = requestFromPOS.TransactionId,
+                ResponseCode = response.Result == PaymentResult.Success ? "00" : "01",
+                Message = response.Message.ToUpper(),
+                ApprovedAmount = requestFromPOS.Amount,
+                Timestamp = DateTime.Now,
+                LocationId = requestFromPOS.LocationId,
+                ApprovalCode = response.ApprovalCode,
+                Issuer = requestFromPOS.PaymentMethod,
+                LastFourDigits = requestFromPOS.PaymentIdentifier[^4..],
+                POSTerminalId = requestFromPOS.POSTerminalId
+            };
+
+            var packetResponseString = packetResponse.GeneratePacket();
+            _serialPort.Write(packetResponseString);
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)

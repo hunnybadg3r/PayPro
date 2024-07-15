@@ -21,6 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayPro.Services", "PayPro.S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7F5A5324-8D59-4C20-8A24-72B6095537D5}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\Desktop\demo-mockpos-paypro.gif = ..\..\Desktop\demo-mockpos-paypro.gif
 		MockPayAPI.md = MockPayAPI.md
 		MockPOS.md = MockPOS.md
 	EndProjectSection

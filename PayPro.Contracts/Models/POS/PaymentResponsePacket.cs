@@ -7,12 +7,12 @@ namespace PayPro.Contracts.Models.POS
         public string PacketType { get; set; } // "PAYMENT_RESPONSE"
         public string TransactionId { get; set; }
         public string ResponseCode { get; set; } // 예: "00" (승인), "01" (거절) 등
-        public string ResponseMessage { get; set; }
+        public string Message { get; set; }
         public decimal ApprovedAmount { get; set; }
         public DateTime Timestamp { get; set; }
         public string LocationId { get; set; }
         public string ApprovalCode { get; set; } // 승인 시 발급되는 코드
-        public string CardIssuer { get; set; }
+        public string Issuer { get; set; }
         public string LastFourDigits { get; set; } // 카드 번호 마지막 4자리
         public string POSTerminalId { get; set; }
 
@@ -27,13 +27,13 @@ namespace PayPro.Contracts.Models.POS
             packetBuilder.Append(AsciiCC.FS);
             packetBuilder.Append(ResponseCode);
             packetBuilder.Append(AsciiCC.FS);
-            packetBuilder.Append(ResponseMessage);
+            packetBuilder.Append(Message);
             packetBuilder.Append(AsciiCC.FS);
             packetBuilder.Append(Timestamp.ToString("yyyyMMddHHmmss"));
             packetBuilder.Append(AsciiCC.FS);
             packetBuilder.Append(ApprovalCode ?? "");
             packetBuilder.Append(AsciiCC.FS);
-            packetBuilder.Append(CardIssuer ?? "");
+            packetBuilder.Append(Issuer ?? "");
             packetBuilder.Append(AsciiCC.FS);
             packetBuilder.Append(LastFourDigits ?? "");
             packetBuilder.Append(AsciiCC.FS);
@@ -88,10 +88,10 @@ namespace PayPro.Contracts.Models.POS
             packet.PacketType = fields[0];
             packet.TransactionId = fields[1];
             packet.ResponseCode = fields[2];
-            packet.ResponseMessage = fields[3];
+            packet.Message = fields[3];
             packet.Timestamp = DateTime.ParseExact(fields[4], "yyyyMMddHHmmss", null);
             packet.ApprovalCode = fields[5];
-            packet.CardIssuer = fields[6];
+            packet.Issuer = fields[6];
             packet.LastFourDigits = fields[7];
             packet.ApprovedAmount = decimal.Parse(fields[8]);
             packet.POSTerminalId = fields[9];
