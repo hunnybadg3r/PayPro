@@ -13,7 +13,7 @@
 <img src="https://i.imgur.com/pAKHmgy.png" width="526" />
 
 ## 시뮬레이션 방식
-![](https://i.imgur.com/nwSt17a.png)
+![](https://i.imgur.com/cFo0v8m.png)
 
 - 가상의 POS(MockPOS)로 부터 결제 요청을 수신합니다.
 - POS의 결제 요청을 가상의 Payment Gateway(MockPayAPI)로 전달하여 결제 프로세스를 수행합니다.
