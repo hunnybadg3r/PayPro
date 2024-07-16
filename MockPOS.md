@@ -29,3 +29,6 @@ MockPOS에서 사용하는 패킷은 ASCII 제어 문자를 사용하여 필드를 구분합니다.
 | 15 | 개행 문자 | 패킷의 끝 | \r\n (CR LF) |
 
 \* 필드 구분자: \u001c (FS, Field Separator)
+
+## UI
+![](https://i.imgur.com/kfUHCIE.png)
