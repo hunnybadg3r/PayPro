@@ -27,8 +27,6 @@
 </details>
 
 ### MockPOS
-![](https://i.imgur.com/kfUHCIE.png)
-
 - WPF(.NET 8)로 작성되었습니다.
 - 시리얼 통신을 통해 PayPro에 결제 요청을 전송합니다.
 - 실제 주유소 POS에서 쓰이는 패킷을 간소화하여 가상의 패킷을 정의하였습니다. 
