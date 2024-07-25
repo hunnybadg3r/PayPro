@@ -61,6 +61,6 @@
 - Community Toolkit MVVM
 - WPF Custom Control
 ### NuGet
-- [LiveChart2](https://livecharts.dev/)
+- [LiveCharts](https://livecharts.dev/)
 - [WPF UI](https://wpfui.lepo.co/)
 - [Serilog](https://serilog.net/)
